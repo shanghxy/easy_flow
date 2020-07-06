@@ -23,6 +23,19 @@
             <i class="el-icon-warning-outline el-node-state-warning" v-show="node.state === 'warning'"></i>
             <i class="el-icon-loading el-node-state-running" v-show="node.state === 'running'"></i>
         </div>
+
+        <!-- <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+            <el-table :data="nodeList">
+                <el-table-column property="node.name" label="任务名称" width="150"></el-table-column>
+                <el-table-column property="node.info" label="任务描述" width="200"></el-table-column>
+                <el-table-column property="address" label="地址"></el-table-column>
+            </el-table>
+            lalala
+
+        </el-dialog> -->
+
+
+
     </div>
 </template>
 
@@ -34,6 +47,8 @@
         },
         data() {
             return {
+                // dialogTableVisible: false
+                
             }
         },
         computed: {
@@ -55,13 +70,25 @@
                 nodeIcoClass[this.node.ico] = true
                 // 添加该class可以推拽连线出来
                 nodeIcoClass['flow-node-drag'] = true
+                console.log('nodeIcoClass')
                 return nodeIcoClass
             }
+
         },
         methods: {
             // 点击节点
             clickNode() {
                 this.$emit('clickNode', this.node.id)
+                // this.$alert(this.node.info,this.node.name, {
+                // confirmButtonText: '确定',
+                // callback: action => {
+                //     this.$message({
+                //     type: 'info',
+                //     message: `action: ${ action }`
+                //     });
+                // }
+                // });
+                this.dialogTableVisible = true;
             },
             // 鼠标移动后抬起
             changeNodeSite() {

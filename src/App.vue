@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <flow-panel></flow-panel>
+        <flow-panel ></flow-panel>
     </div>
 </template>
 

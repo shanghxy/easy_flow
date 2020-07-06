@@ -1,0 +1,163 @@
+{
+    "name": "流程B",
+    "nodeList": [
+        {
+            "id": "nodeA",
+            "name": "A",
+            "type": "task",
+            "left": "18px",
+            "top": "223px",
+            "ico": "el-icon-user-solid",
+            "state": "success",
+            "inCharge":"momo",
+            "timeStart":"2020-07-02",
+            "timeEnd":"2020-07-03",
+            "info":"我是节点A的详细信息",
+            "new":[
+                {
+                    "mylabel":"'新变量名1'",
+                    "value":"'哈哈哈'"
+                },
+                {
+                   " mylabel":"'新变量名2",
+                    "value":"啦啦啦" 
+                }
+            ]
+        },
+        {
+            "id": "nodeB",
+            "name": "B",
+            "type": "task",
+            "left": "351px",
+            "top": "96px",
+            "ico": "el-icon-user-solid",
+            "state": "success",
+            "inCharge":"momo",
+            "timeStart":"2020-07-02",
+            "timeEnd":"2020-07-03",
+            "info":"我是节点A的详细信息",
+            "new":[
+                {
+                    "mylabel":"'新变量名1'",
+                    "value":"'哈哈哈'"
+                },
+                {
+                   " mylabel":"'新变量名2",
+                    "value":"啦啦啦" 
+                }
+            ]
+        },
+        {
+            "id": "nodeC",
+            "name": "C",
+            "type": "task",
+            "left": "354px",
+            "top": "250px",
+            "ico": "el-icon-user-solid",
+            "state": "success",
+            "inCharge":"momo",
+            "timeStart":"2020-07-02",
+            "timeEnd":"2020-07-03",
+            "info":"我是节点A的详细信息",
+            "new":[
+                {
+                    "mylabel":"'新变量名1'",
+                    "value":"'哈哈哈'"
+                },
+                {
+                   " mylabel":"'新变量名2",
+                    "value":"啦啦啦" 
+                }
+            ]
+        },
+        {
+            "id": "nodeD",
+            "name": "D",
+            "type": "task",
+            "left": "354px",
+            "top": "351px",
+            "ico": "el-icon-user-solid",
+            "state": "success",
+            "inCharge":"momo",
+            "timeStart":"2020-07-02",
+            "timeEnd":"2020-07-03",
+            "info":"我是节点A的详细信息",
+            "new":[
+                {
+                    "mylabel":"'新变量名1'",
+                    "value":"'哈哈哈'"
+                },
+                {
+                   " mylabel":"'新变量名2",
+                    "value":"啦啦啦" 
+                }
+            ]
+        },
+        {
+            "id": "nodeE",
+            "name": "E",
+            "type": "task",
+            "left": "723px",
+            "top": "215px",
+            "ico": "el-icon-user-solid",
+            "state": "success",
+            "inCharge":"momo",
+            "timeStart":"2020-07-02",
+            "timeEnd":"2020-07-03",
+            "info":"我是节点A的详细信息",
+            "new":[
+                {
+                    "mylabel":"'新变量名1'",
+                    "value":"'哈哈哈'"
+                },
+                {
+                   " mylabel":"'新变量名2",
+                    "value":"啦啦啦" 
+                }
+            ]
+        }
+    ],
+    "lineList": [{
+        "from": "nodeA",
+        "to": "nodeB",
+        "label": "条件A",
+        "connector": "Bezier",
+        "anchors": ["Bottom", "Left"]
+    }, 
+    {
+        "from": "nodeA",
+        "to": "nodeC",
+        "label": "条件B",
+        "connector": "Bezier",
+        "anchors": ["Bottom", "Left"]
+    },
+    {
+        "from": "nodeB",
+        "to": "nodeE",
+        "label": "条件C",
+        "connector": "Bezier",
+        "anchors": ["Bottom", "Left"]
+    },
+    {
+        "from": "nodeC",
+        "to": "nodeE",
+        "label": "条件A",
+        "connector": "Bezier",
+        "anchors": ["Bottom", "Left"]
+    },
+    {
+        "from": "nodeD",
+        "to": "nodeE",
+        "label": "条件A",
+        "connector": "Bezier",
+        "anchors": ["Bottom", "Left"]
+    },
+    {
+        "from": "nodeA",
+        "to": "nodeD",
+        "label": "条件A",
+        "connector": "Bezier",
+        "anchors": ["Bottom", "Left"]
+    } 
+    ]
+}

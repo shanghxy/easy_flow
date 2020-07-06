@@ -1,8 +1,10 @@
+
 /*画布容器*/
 #efContainer {
     position: relative;
     overflow: scroll;
     flex: 1;
+    background-color: darkslategray;
 }
 
 /*顶部工具栏*/
@@ -34,13 +36,13 @@
 }
 
 .ef-node-pmenu:hover {
-    background-color: #E0E0E0;
+    background-color: black;
 }
 
 .ef-node-menu-li {
-    color: #565758;
+    color:black;
     width: 150px;
-    border: 1px dashed #E0E3E7;
+    border: 1px dashed black;
     margin: 5px 0 5px 0;
     padding: 5px;
     border-radius: 5px;
@@ -67,9 +69,9 @@
     display: flex;
     width: 170px;
     height: 32px;
-    border: 1px solid #E0E3E7;
+    border: 1px solid black;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: yellowgreen;
 }
 
 .ef-node-container:hover {
@@ -105,11 +107,12 @@
 .ef-node-left-ico:hover {
     /* 设置拖拽的样式 */
     cursor: crosshair;
+    
 }
 
 /*节点显示的文字*/
 .ef-node-text {
-    color: #565758;
+    color: black;
     font-size: 12px;
     line-height: 32px;
     margin-left: 8px;
@@ -129,13 +132,22 @@
     color: #84CF65;
     cursor: default;
 }
+/* .learnMore{
+    
+    line-height: 32px;
+    position: absolute;
+    right: 0px;
+    color: #84CF65;
+    cursor: default;
+   
+} */
 
 /*节点的几种状态样式*/
 .el-node-state-success {
     line-height: 32px;
     position: absolute;
     right: 5px;
-    color: #84CF65;
+    color: #7bbb60;
     cursor: default;
 }
 
@@ -143,7 +155,7 @@
     line-height: 32px;
     position: absolute;
     right: 5px;
-    color: #F56C6C;
+    color: #f35353;
     cursor: default;
 }
 
@@ -151,7 +163,7 @@
     line-height: 32px;
     position: absolute;
     right: 5px;
-    color: #E6A23C;
+    color: #b90bee;
     cursor: default;
 }
 
@@ -185,9 +197,9 @@
 /* 连线中的label 样式*/
 .jtk-overlay.flowLabel:not(.aLabel) {
     padding: 4px 10px;
-    background-color: white;
-    color: #565758 !important;
-    border: 1px solid #E0E3E7;
+    background-color: rgb(161, 179, 161);
+    color:black !important;
+    border: 1px solid blak;
     border-radius: 5px;
 }
 

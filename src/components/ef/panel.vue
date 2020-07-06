@@ -6,9 +6,19 @@
                 <div class="ef-tooltar">
                     <el-link type="primary" :underline="false">{{data.name}}</el-link>
                     <el-divider direction="vertical"></el-divider>
-                    <el-button type="text" icon="el-icon-delete" size="large" @click="deleteElement" :disabled="!this.activeElement.type"></el-button>
+
+                    <el-button  type="primary" icon="el-icon-delete" 
+                    @click="deleteElement" :disabled="!this.activeElement.type">
+                    删除选中节点/连线
+                    </el-button>
+
                     <el-divider direction="vertical"></el-divider>
-                    <el-button type="text" icon="el-icon-download" size="large" @click="downloadData"></el-button>
+
+                    <el-button type="primary" icon="el-icon-check" @click="downloadData" >
+                        保存并上传该流程图
+                    </el-button>
+
+                    <!-- <el-button type="text" icon="el-icon-download" size="large" @click="downloadData"></el-button> -->
 <!--                    <el-divider direction="vertical"></el-divider>-->
 <!--                    <el-button type="text" icon="el-icon-plus" size="large" @click="zoomAdd"></el-button>-->
 <!--                    <el-divider direction="vertical"></el-divider>-->
@@ -44,7 +54,7 @@
                 <div style="position:absolute;top: 2000px;left: 2000px;">&nbsp;</div>
             </div>
             <!-- 右侧表单 -->
-            <div style="width: 300px;border-left: 1px solid #dce3e8;background-color: #FBFBFB">
+            <div style="width: 400px;border-left: 1px solid #dce3e8;background-color: #FBFBFB">
                 <flow-node-form ref="nodeForm" @setLineLabel="setLineLabel" @repaintEverything="repaintEverything"></flow-node-form>
             </div>
         </div>
@@ -74,6 +84,7 @@
         data() {
             return {
                 // jsPlumb 实例
+                
                 jsPlumb: null,
                 // 控制画布销毁
                 easyFlowVisible: true,
@@ -89,9 +100,11 @@
                     type: undefined,
                     // 节点ID
                     nodeId: undefined,
+                    nodeName: undefined,
                     // 连线ID
                     sourceId: undefined,
-                    targetId: undefined
+                    targetId: undefined,
+                    
                 },
                 zoom: 0.5
             }
@@ -166,7 +179,9 @@
                         this.$refs.nodeForm.lineInit({
                             from: conn.sourceId,
                             to: conn.targetId,
-                            label: conn.getLabel()
+                            label: conn.getLabel(),
+                            connector: 'Bezier',
+                            anchors: ['Bottom', 'Left']
                         })
                     })
                     // 连线
@@ -174,7 +189,9 @@
                         let from = evt.source.id
                         let to = evt.target.id
                         if (this.loadEasyFlowFinish) {
-                            this.data.lineList.push({from: from, to: to})
+                            this.data.lineList.push({from: from, to: to, 
+                            connector:'Bezier',
+                            anchors: ['Bottom', 'Left']})
                         }
                     })
 
@@ -197,6 +214,9 @@
                     this.jsPlumb.bind("beforeDrop", (evt) => {
                         let from = evt.sourceId
                         let to = evt.targetId
+                        let connector = 'Bezier'
+                        let anchors = ['Bottom', 'Left']
+                        
                         if (from === to) {
                             this.$message.error('节点不支持连接自己')
                             return false
@@ -242,8 +262,11 @@
                         source: line.from,
                         target: line.to,
                         label: line.label ? line.label : '',
-                        connector: line.connector ? line.connector : '',
-                        anchors: line.anchors ? line.anchors : undefined,
+                        connector:'Bezier',
+                        anchors: ['Bottom', 'Left'],
+                        
+                        // connector: line.connector ? line.connector : '',
+                        // anchors: line.anchors ? line.anchors : undefined,
                         paintStyle: line.paintStyle ? line.paintStyle : undefined,
                     }
                     this.jsPlumb.connect(connParam, this.jsplumbConnectOptions)
@@ -268,7 +291,10 @@
                 })
                 this.data.lineList.forEach(function (line) {
                     if (line.from == from && line.to == to) {
-                        line.label = label
+                        line.label = label,
+                        line.connector = 'Bezier',
+                        anchors = ['Bottom', 'Left']
+                        
                     }
                 })
 
@@ -276,7 +302,7 @@
             // 删除激活的元素
             deleteElement() {
                 if (this.activeElement.type === 'node') {
-                    this.deleteNode(this.activeElement.nodeId)
+                    this.deleteNode(this.activeElement.nodeId, this.activeElement.nodeName)
                 } else if (this.activeElement.type === 'line') {
                     this.$confirm('确定删除所点击的线吗?', '提示', {
                         confirmButtonText: '确定',
@@ -381,8 +407,8 @@
              * 删除节点
              * @param nodeId 被删除节点的ID
              */
-            deleteNode(nodeId) {
-                this.$confirm('确定要删除节点' + nodeId + '?', '提示', {
+            deleteNode(nodeId, nodeName) {
+                this.$confirm('确定要删除节点' + '?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
@@ -409,7 +435,9 @@
             clickNode(nodeId) {
                 this.activeElement.type = 'node'
                 this.activeElement.nodeId = nodeId
+                this.activeElement.nodeName = this.data.name
                 this.$refs.nodeForm.nodeInit(this.data, nodeId)
+                
             },
             // 是否具有该线
             hasLine(from, to) {
@@ -442,7 +470,47 @@
                     this.$refs.flowInfo.init()
                 })
             },
-            // 加载流程图
+
+            // dataReloadB() {
+            //     this.easyFlowVisible = false
+            //     this.data.nodeList = []
+            //     this.data.lineList = []
+
+            //     this.$axios.get('/static/dataBJson.json')
+            //     .then((res)=>{      
+            //         // console.log(res.data.dataSet)
+            //         this.data.nodeList=res.data.nodeList
+            //         this.data.lineList=res.data.lineList
+            //         this.easyFlowVisible = true
+            //          this.$nextTick(() => {
+            //             this.jsPlumb = jsPlumb.getInstance()
+            //             this.$nextTick(() => {
+            //                 this.jsPlumbInit()
+            //             })
+            //         })
+                    
+            //     })
+            // },
+
+            dataReloadB() {
+                this.easyFlowVisible = false
+                this.data.nodeList = []
+                this.data.lineList = []
+                this.$axios.get('http://192.168.2.20:9000/market/ProcessNode/')
+                .then(res=>{
+                    this.data.nodeList = res.data.nodeList
+                    this.data.lineList = res.data.lineList
+                    this.easyFlowVisible = true
+                    this.$nextTick(()=>{
+                        this.jsPlumb = jsPlumb.getInstance()
+                        this.$nextTick(()=>{
+                            this.jsPlumbInit()
+                        })
+                    })
+                })
+            },
+
+            //加载流程图
             dataReload(data) {
                 this.easyFlowVisible = false
                 this.data.nodeList = []
@@ -463,10 +531,11 @@
             dataReloadA() {
                 this.dataReload(getDataA())
             },
-            // 模拟载入数据dataB
-            dataReloadB() {
-                this.dataReload(getDataB())
-            },
+            // // 模拟载入数据dataB
+            // dataReloadB() {
+            //     this.dataReload(getDataB())
+            // },
+
             // 模拟载入数据dataC
             dataReloadC() {
                 this.dataReload(getDataC())
@@ -492,14 +561,33 @@
                 this.jsPlumb.setZoom(this.zoom)
             },
             // 下载数据
+            
+
+
             downloadData() {
-                this.$confirm('确定要下载该流程数据吗？', '提示', {
+                this.$confirm('确定要保存并上传该流程数据给后端吗？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
                     closeOnClickModal: false
                 }).then(() => {
                     var datastr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.data, null, '\t'));
+
+                    this.$axios({
+                            headers: {
+                                'Content-Type': 'application/json;'
+                            },
+                            method: 'post',
+                            url: 'http://192.168.2.20:9000/market/ProcessNode/',
+                            transformRequest: [function (data) {
+                            // 对 data 进行任意转换处理
+                            data = JSON.stringify(data)
+
+                            return data;
+                            }],
+                            data: this.data
+                        })
+
                     var downloadAnchorNode = document.createElement('a')
                     downloadAnchorNode.setAttribute("href", datastr);
                     downloadAnchorNode.setAttribute("download", 'data.json')
